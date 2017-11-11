@@ -1,3 +1,9 @@
+.tmp
+
+.idea
+.idea/*
+.idea/
+
 # Logs
 logs
 *.log
