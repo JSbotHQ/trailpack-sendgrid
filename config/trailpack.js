@@ -15,7 +15,7 @@ module.exports = {
        * List of events that must be fired before the configure lifecycle
        * method is invoked on this Trailpack
        */
-      listen: ['trailpack:router:initialized'],
+      listen: [],
 
       /**
        * List of events emitted by the configure lifecycle method

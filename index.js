@@ -5,57 +5,72 @@ const sendGrid = require('sendgrid')
 const lib = require('./lib')
 const _ = require('lodash')
 
-module.exports = class SendgridTrailpack extends Trailpack {
+module.exports = class Sendgrid extends Trailpack {
 
   /**
    * validate spp configuration
    */
-  validate () {
+  validate() {
     if (!this.app.config.sendgrid) {
       return Promise.reject(new Error('There not config.sendgrid !'))
     }
 
-    if (!_.isFunction(this.app.config.sendgrid)) {
+    if (_.isFunction(this.app.config.sendgrid)) {
       return Promise.reject(new Error('config.sendgrid is not a function !'))
     }
 
-    if (!this.app.config.sendgrid.apiKey){
+    if (!this.app.config.sendgrid.apiKey) {
       return Promise.reject(new Error('config.sendgrid apikey is not available !'))
     }
 
     return Promise.resolve()
   }
 
-  /**
+  /*/**
    * configure sendgrid document method
    */
-  configure () {
+  configure() {
 
     console.log('My Trailpack is configured')
-    this.app.config.sendgrid = sendGrid(this.app.config.sendgrid.apiKey)
+    this.sendgrid = sendGrid(this.app.config.sendgrid.apiKey)
+    this.app.sendgrid = this
+    return Promise.resolve()
+  }
+
+  /**Send Mail
+   *
+   * @param message
+   * @returns {Promise.<*[]>}
+   */
+  sendMail(message) {
+    if (_.isEmpty(message))
+      return Promise.reject(new Error('Invalid message, parameter missing!'))
+
+   // validate email
+   return lib.Mail
+     .validateMail(message)
+      .then(msg=>{
+
+        // send email
+        return lib.Mail
+          .sendMail(this.app, msg)
+          .then(email=>{
+            return Promise.resolve(email)
+          })
+      })
+      .catch(err=>{
+        return Promise.reject(err)
+      })
   }
 
   /**
    * initialize sendgrid
    */
-  initialize () {
-
-    this.app.log.info('My Trailpack is initialized')
+  initialize() {
     return Promise.resolve()
   }
 
-  /**
-   * Send Mail
-   */
-  sendMail (message){
-    return Promise.all([
-      lib.Mail.validateMail(message), // validate email
-      lib.Mail.sendMail(this.app,message) // send email
-    ])
-  }
-
-  constructor (app) {
-    console.log('constructor called trailpack-sendgrid',app)
+  constructor(app) {
     super(app, {
       config: require('./config'),
       api: require('./api'),
