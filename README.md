@@ -36,10 +36,10 @@ module.exports = {
 
 ## Usage
 
-Send email via `app.services.SendgridService.send`
+Send email via `app.sendgrid.sendMail`
 
 ```js
-app.services.SendgridService.send({
+app.sendgrid.sendMail({
   from:    "Your Email <your@email.it>",
   to:      "target@email.com",
   subject: "Hello from trailpack-mailgun",
