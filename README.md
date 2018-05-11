@@ -42,7 +42,7 @@ Send email via `app.sendgrid.sendMail`
 app.sendgrid.sendMail({
   from:    "Your Email <your@email.it>",
   to:      "target@email.com",
-  subject: "Hello from trailpack-mailgun",
+  subject: "Hello from trailpack-sendgrid",
   text:    "Please, report issues"
 }).then(app.log).catch(app.log.error)
 ```
