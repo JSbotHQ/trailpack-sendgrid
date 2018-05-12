@@ -1,7 +1,7 @@
 {
   "name": "trailpack-sendgrid",
-  "version": "0.0.0",
-  "description": "sendgrid - email library",
+  "version": "0.0.1",
+  "description": "A trailpack for sendgrid email sending",
   "homepage": "http://trailsjs.io",
   "author": {
     "name": "Nishchit",
